@@ -1,0 +1,13 @@
+<h1>{{cafe_name}} 메뉴 리스트</h1>
+<a href="{% url 'cafe:cafe_home' %}">Home</a>
+
+<ul>
+{% for menu in menus_to_page %}
+<li>
+    <a href="{% url 'cafe:menu_detail' menu.id %}">{{menu.menu_name}} : {{menu.menu_price}}</a>
+</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'cafe:menu_add_page' %}">메뉴추가</a>
+<a href="{% url 'cafe:cafe_home' %}"></a>

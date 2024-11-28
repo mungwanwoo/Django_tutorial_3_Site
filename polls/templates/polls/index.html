@@ -1,0 +1,13 @@
+{% if latest_questions_list %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'polls/style.css' %}">
+<body>
+<ul>    
+    {% for question in latest_questions_list %}
+    <li><a href="{% url 'polls:detail' question.id %}"> {{question.question_text}}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+<a href="{% url 'polls:create_question' %}">create_question</a>
+</body>

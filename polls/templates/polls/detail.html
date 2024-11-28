@@ -1,0 +1,17 @@
+<form action="{% url 'polls:vote' question.id %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend><h1>{{ question.question_text }}</h1></legend>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        {% for choice in question.choice_set.all %}
+            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+            <label for="choice{{ forloop.counter }}">{{ forloop.counter }} {{ choice.choice_text }}</label>
+            <a href="{% url 'polls:choice_delete' choice.id %}">삭제</a>
+            <br>
+        {% endfor %}
+    </fieldset>
+    <input type="submit" value="Vote">
+</form>
+<a href="{% url 'polls:update_question' question.id %}">{{question.question_text}}를 update합니다.</a><br>
+<a href="{% url 'polls:delete_question' question.id %}">삭제</a><br>
+<a href="{% url 'polls:create_choice' question.id %}">Choice만들기</a>

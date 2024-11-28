@@ -1,0 +1,6 @@
+
+<ul>
+    {% for company in company_list %}
+    <li><a href="{% url 'news:detail' company.id %}">{{company.name}}</a></li>
+    {% endfor %}
+</ul>

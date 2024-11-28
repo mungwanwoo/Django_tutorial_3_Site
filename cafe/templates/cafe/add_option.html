@@ -1,0 +1,14 @@
+<h1>{{menu.menu_name}}의 옵션을 추가합니다</h1>
+
+
+<form action="{% url 'cafe:add_option_data' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="menu_id" value="{{menu.id}}">
+    <label for="">옵션이름</label>
+    <input type="text" name="option_name">
+    <label for="">옵션가격</label>
+    <input type="number" name="option_price" id="">
+    <input type="submit" value="옵션추가해서 DB에 넣기">
+</form>
+
+<a href="{% url 'cafe:cafe_home' %}">Home</a>

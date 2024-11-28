@@ -1,0 +1,7 @@
+언론사명 : {{company.name}}
+
+<ul>
+    {% for news in company.news.all %}
+    <li>선택 : {{news.content}}</li>
+    {% endfor %}
+</ul>

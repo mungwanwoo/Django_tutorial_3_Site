@@ -1,0 +1,9 @@
+<!-- choice_confirm_delete.html -->
+<h1>Are you sure you want to delete this choice?</h1>
+<p>{{ choice.choice_text }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, Delete</button>
+    <a href="{% url 'polls:index' %}">Cancel</a>
+</form>

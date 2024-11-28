@@ -1,0 +1,14 @@
+<h1>{{menu_to_page.menu_name}}</h1>
+
+<ul>
+    {% for option in menu_to_page.option_set.all %}
+    <li>
+        {{option.option_name}} : {{option.option_price}}원
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'cafe:add_option' menu_to_page.id %}">옵션추가</a>
+<a href="{% url 'cafe:menu_update' menu_to_page.id %}">업데이트</a>
+<a href="{% url 'cafe:menu_delete' menu_to_page.id %}">삭제</a>
+<a href="{% url 'cafe:cafe_home' %}"></a>
