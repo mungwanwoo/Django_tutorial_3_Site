@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">이미지 갤러리</h1>
+    {% if user.is_authenticated %}
+    <div class="text-end mb-3">
+        <a href="{% url 'imageapp:image_write' %}">이미지 게시글 생성</a>
+    </div>
+    {% endif %}
+
+    <div class="row">
+        {% for image in images %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <a href="{% url 'imageapp:image_detail' image.id %}">
+                <img src="/media/{{ image.image }}" class="card-img-top" alt="{{ image.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ image.title }}</h5>
+                    <p class="card-text">{{ image.description }}</p>
+                    <p class="text-muted mb-0"><small>작성자: {{ image.author }}</small></p>
+                    <p class="text-muted"><small>생성일: {{ image.create_at|date:"Y-m-d H:i" }}</small></p>
+                </div>
+                <div class="card-footer text-center">
+                    <small>마지막 수정: {{ image.update_at|date:"Y-m-d H:i" }}</small>
+                </div>
+                </a>    
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'blog/blog_base.html' %}
+{% load static %}
+{% block title %}Blog App{% endblock %}
+
+{% block blog_content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">
+            {% if category %}
+                {{ category.name }}
+            {% else %}
+                전체 게시글
+            {% endif %}
+        </h5>
+        {% if category %}
+        <a href="{% url 'blog:post_write' category.id %}" class="btn btn-primary btn-sm">글쓰기</a>
+        {% endif %}
+    </div>
+    <div class="card-body">       
+        {% if posts %}
+            <div class="list-group">
+                {% for post in posts %}
+                    <a href="{% url 'blog:post_detail' post.id %}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ post.title }}</h5>
+                            <small class="text-muted">{{ post.created_at|date:"Y-m-d" }}</small>
+                        </div>
+                        <small class="text-muted">카테고리: {{ post.category.name }}</small>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center">게시글이 없습니다.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

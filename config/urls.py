@@ -16,20 +16,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from django.conf import settings
-from .views import HomeView
+from . import settings
+from django.conf.urls.static import static
+
+from . import views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', HomeView.as_view(), name='home'),
+    path('accounts/', include('django.contrib.auth.urls')), 
+    path('accounts/register/', views.UserCreateView.as_view(), name='register'), 
+    path('accounts/register/done/', views.UserCreateDoneTV.as_view(), name='register_done'),
+    path('', views.HomeView.as_view(), name='home'),
     path('polls/',include('polls.urls')),
     path('news/',include('news.urls')),
     path('cafe/',include('cafe.urls')),
+    path('blog/',include('blog.urls')),
+    path('imageapp/',include('imageapp.urls')),
 ]
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
         
-    ] + urlpatterns
+    ] + urlpatterns +static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

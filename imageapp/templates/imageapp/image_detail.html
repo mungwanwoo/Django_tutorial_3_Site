@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <img src="/media/{{ image.image }}" class="card-img-top" alt="{{ image.title }}">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ image.title }}</h5>
+                    <p class="card-text">{{ image.description }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>작성자:</strong> {{ image.author }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>생성일:</strong> {{ image.create_at|date:"Y-m-d H:i" }}
+                    </li>
+                </ul>
+                <div class="card-footer text-center text-muted">
+                    마지막 수정: {{ image.update_at|date:"Y-m-d H:i" }}
+                </div>
+            </div>
+            <!-- 버튼 섹션 -->
+            <div class="mt-4 text-center">
+                {% if user == image.author %}
+                <a href="{% url 'imageapp:image_edit' image.id %}" class="btn btn-warning me-2">
+                    <i class="bi bi-pencil-square"></i> 수정
+                </a>
+                <a href="{% url 'imageapp:image_delete' image.id %}" class="btn btn-danger me-2">
+                    <i class="bi bi-trash"></i> 삭제
+                </a>
+                {% endif %}
+                <a href="{% url 'imageapp:index' %}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left-circle"></i> 목록보기
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

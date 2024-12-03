@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <!-- 블로그 사이드바 -->
+    <div class="col-md-3">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">카테고리</h5>
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="{% url 'blog:index' %}" 
+                   class="list-group-item list-group-item-action {% if not category %}active{% endif %}">
+                    전체보기
+                </a>
+                {% for cat in categories %}
+                <a href="{% url 'blog:category_post_list' cat.id %}" 
+                   class="list-group-item list-group-item-action {% if category.id == cat.id %}active{% endif %}">
+                    {{ cat.name }}
+                </a>
+                {% endfor %}
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'blog:category_list' %}" class="btn btn-sm btn-outline-primary w-100">
+                    카테고리 관리
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 메인 컨텐츠 -->
+    <div class="col-md-9">
+        <div class="mb-4">
+            {% block blog_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+<footer class="bg-dark text-white py-4 fixed-bottom">
+    <div class="container">
+        <!-- 네비게이션 메뉴 -->
+        <ul class="nav justify-content-center mb-3">
+            {% if category %}
+            <li class="nav-item">
+                <a class="nav-link text-white fw-bold" href="{% url 'blog:post_write' category.id %}">
+                    <i class="bi bi-pencil-square"></i> 게시글 등록
+                </a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link text-white fw-bold" href="{% url 'blog:category_list' %}">
+                    <i class="bi bi-list-task"></i> 카테고리 관리
+                </a>
+            </li>
+        </ul>
+
+        <!-- 간단한 카피라이트 -->
+        <p class="text-center mb-0">
+            © {{ now|date:"Y" }} My Blog. All rights reserved. 
+            <a href="#" class="text-primary text-decoration-none">Privacy Policy</a>
+        </p>
+    </div>
+</footer>
+{% endblock %}

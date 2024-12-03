@@ -1,0 +1,59 @@
+{% extends 'blog/blog_base.html' %}
+{% load static %}
+{% block title %}Post Detail{% endblock %}
+
+{% block blog_content %}
+<div class="container my-5">
+    <!-- 게시글 카드 -->
+    <div class="card shadow-lg border-0">
+        <div class="card-body">
+            <!-- 게시글 제목 -->
+            <div class="text-center mb-4">
+                <h1 class="display-4 text-primary fw-bold">{{ post.title }}</h1>
+            </div>
+
+            <!-- 카테고리 및 작성일 -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <span class="badge bg-secondary">{{ post.category.name }}</span>
+                <span class="bg-warning">author : {{ post.author.username }}</span>
+
+                <span class="text-muted"><i class="bi bi-calendar"></i> {{ post.create_at|date:"Y-m-d H:i" }}</span>
+            </div>
+
+            <!-- 내용 -->
+            <div class="mb-5">
+                <p class="lead text-justify" style="line-height: 1.8;">{{ post.content }}</p>
+            </div>
+
+            <!-- 버튼 그룹 -->
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'blog:index' %}" class="btn btn-outline-primary btn-lg"><i class="bi bi-arrow-left-circle"></i> 목록</a>
+                {% if user == post.author %}
+                <a href="{% url 'blog:post_edit' post.id %}" class="btn btn-warning btn-lg"><i class="bi bi-pencil-square"></i> 수정</a>
+                <a href="{% url 'blog:post_delete' post.id %}" class="btn btn-danger btn-lg"><i class="bi bi-trash"></i> 삭제</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- 다른 포스트 리스트 -->
+    <div class="mt-5">
+        <h3 class="text-primary fw-bold">다른 글도 읽어보세요</h3>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for p in posts %}
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-truncate">{{ p.title }}</h5>
+                            <p class="card-text text-muted text-truncate">{{ p.content|truncatechars:100 }}</p>
+                        </div>
+                        <div class="card-footer bg-transparent text-end">
+                            <a href="{% url 'blog:post_detail' p.id %}" class="btn btn-sm btn-outline-primary">자세히 보기</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

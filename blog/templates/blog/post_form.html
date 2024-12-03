@@ -1,0 +1,25 @@
+{% extends 'blog/blog_base.html' %}
+{% block blog_content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">폼 입력</h5>
+                </div>
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <input type="hidden" name="category" value="{{category.id}}">
+                        <div class="d-flex justify-content-between mt-3">
+                            <button type="submit" class="btn btn-primary">저장</button>
+                            <a href="{% url 'blog:category_list' %}" class="btn btn-secondary">취소</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
