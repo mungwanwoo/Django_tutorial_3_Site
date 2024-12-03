@@ -9,7 +9,7 @@ class ImagePost(models.Model):
     create_at=models.DateTimeField(auto_now_add=True, verbose_name='작성일')
     update_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
     author=models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name='작성자')
-
+    subscribers = models.ManyToManyField('auth.User', related_name='subscribed_posts', blank=True, verbose_name='구독자')
     class Meta:        
         ordering=['-create_at']
         verbose_name = '이미지 게시글'
@@ -25,4 +25,11 @@ class ImagePost(models.Model):
             self.image.delete()
             super().delete( *args, **kwargs)
     
+    def subscribe(self, user):
+        self.subscribers.add(user)
+        
+    def unsubscribe(self, user):
+        self.subscribers.remove(user)       
     
+    def is_subscribed(self, user):
+        return self.subscribers.filter(id=user.id).exists()

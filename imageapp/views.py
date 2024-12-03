@@ -13,7 +13,8 @@ def index(request):
 # detail
 def  image_detail(request, image_id):
     image = get_object_or_404(ImagePost, pk=image_id)
-    context = {'image':image}
+    context = {'image':image, 'is_susbcribed':image.is_subscribed(request.user)}
+
     return render(request, 'imageapp/image_detail.html', context)
 # 새 게시글
 @login_required
@@ -53,3 +54,13 @@ def image_delete(request, image_id):
     image_post = get_object_or_404(ImagePost, pk=image_id)
     image_post.delete()
     return redirect('imageapp:index')
+
+
+
+def toggle_subscribe(request,image_id):
+    image_post = get_object_or_404(ImagePost, pk=image_id)
+    if image_post.is_subscribed(request.user):
+        image_post.unsubscribe(request.user)
+    else:
+        image_post.subscribe(request.user)
+    return redirect('imageapp:image_detail',image_id)
