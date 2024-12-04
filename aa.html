@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Axios Practice</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <button onclick="getPosts()">게시글 가져오기</button>
+<div id="posts"></div>
+
+<script>
+async function getPosts() {
+    try {
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+        const posts = response.data;
+
+        const postsDiv = document.getElementById('posts');
+        posts.forEach(post => {
+            postsDiv.innerHTML += `
+                <h3>${post.title}</h3>
+                <p>${post.body}</p>
+                <hr>
+            `;
+        });
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+</script>
+
+</body>
+</html>

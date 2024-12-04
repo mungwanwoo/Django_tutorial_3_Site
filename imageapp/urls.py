@@ -10,4 +10,6 @@ urlpatterns = [
     path('image/<int:image_id>', views.image_detail, name='image_detail'),
     path('image/<int:image_id>/edit/', views.image_edit, name='image_edit'), # 이미지 편집(update)
     path('image/<int:image_id>/delete/', views.image_delete, name='image_delete'),
+    # jason return
+    path('image/<int:image_id>/like/', views.toggle_like, name='toggle_like'),
 ]

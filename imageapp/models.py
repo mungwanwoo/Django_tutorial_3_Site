@@ -10,6 +10,7 @@ class ImagePost(models.Model):
     update_at = models.DateTimeField(auto_now=True, verbose_name='수정일')
     author=models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name='작성자')
 
+    likers= models.ManyToManyField('auth.User', related_name='like_posts', blank=True, verbose_name='좋아요')
     class Meta:        
         ordering=['-create_at']
         verbose_name = '이미지 게시글'
@@ -24,5 +25,19 @@ class ImagePost(models.Model):
         if self.image:
             self.image.delete()
             super().delete( *args, **kwargs)
+
+    def like(self, user):
+        self.likers.add(user)
+
+    def unlike(self, user):
+        self.likers.remove(user)
+        
+    def is_liked(self, user):
+        return self.likers.filter(id=user.id).exists()
+        # return self.subscribers.filter(name=user.name).exists()
+
+    # 구독자 수 반환
+    def get_liker_count(self):
+        return self.likers.count()
     
     
