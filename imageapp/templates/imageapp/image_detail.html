@@ -34,9 +34,9 @@
                 </a>
                 {% else %}
                     {% if liked %}
-                    <button id="likeButton" data-post-id="{{image.id}}">좋아요 취소하기</button>
+                    <button id="likeButton" data-post-id="{{image.id}}" class="btn btn-secondary"><i class="bi bi-shield-fill-check"></i>좋아요 취소하기</button>
                     {% else %}
-                    <button id="likeButton" data-post-id="{{image.id}}">좋아요</button>               
+                    <button id="likeButton" data-post-id="{{image.id}}" class="btn btn-secondary"><i class="bi bi-shield"></i>좋아요</button>                 
                     {% endif %}
                 {% endif %}
                 <a href="{% url 'imageapp:index' %}" class="btn btn-secondary">

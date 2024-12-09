@@ -3,6 +3,8 @@ from .models import Category, Post
 from .forms import CategoryForm, PostForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Q
+from django.core.paginator import Paginator
 # Create your views here.
 
 def index(request):
@@ -29,7 +31,7 @@ def category_add(request):
     elif request.method == "GET": # form 입력하는 페이지는 표시
         categories = Category.objects.all()
         form = CategoryForm()  
-    return render(request, 'blog/category_form.html', context={'form':form, 'categories':categories})
+    return render(request, 'blog/category_add.html', context={'form':form, 'categories':categories})
           
 def post_detail(request, post_id):
     # post_id의 post를 보내주기
@@ -94,3 +96,26 @@ def post_delete(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     post.delete()
     return redirect('blog:index')
+
+
+
+def search(request):
+    query=request.GET['query']
+    posts = Post.objects.select_related('author', 'category').all()
+    
+    
+    searched_post= posts.filter(
+        Q(title__icontains=query)|
+        Q(content__icontains=query)|
+        Q(author__username__icontains=query)|
+        Q(category__name__icontains=query)
+
+    )
+    paginator = Paginator(searched_post, 2)
+    page_num=request.GET.get('page',1)
+    page_obj=paginator.get_page(page_num)
+    context={
+        'searched_post':page_obj
+
+    }
+    return render(request,'blog/search.html',context=context)

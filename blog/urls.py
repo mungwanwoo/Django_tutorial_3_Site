@@ -15,6 +15,7 @@ urlpatterns = [
     path('post/write/<int:category_id>/', views.post_write, name='post_write'), # 포스트 생성
     path('post/<int:post_id>/edit/', views.post_edit, name='post_edit'), # 포스트 편집(update)
     path('post/<int:post_id>/delete', views.post_delete, name='post_delete'), # 포스트 삭제
+    path('search/',views.search, name='search'), # 포스트 삭제
 ]
 
 # 10:50까지 개선사항이나 버그에 대한 아이디어를 피들렛에 댓글로 남겨주세요!

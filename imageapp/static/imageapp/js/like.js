@@ -29,10 +29,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = response.data;
 
                 // 응답 데이터에 따라 UI를 업데이트합니다
-                if (data.status === 'like') {
-                    likeButton.textContent = '좋아요 취소하기';
+                if (data.status === 'liked') {
+                    likeButton.innerHTML = '<i class="bi bi-shield-fill-check"></i> 좋아요 취소하기';
                 } else {
-                    likeButton.textContent = '좋아요';
+                    likeButton.innerHTML = '<i class="bi bi-shield"></i> 좋아요';
                 }
 
                 // 구독자 수를 업데이트합니다

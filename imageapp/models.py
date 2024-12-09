@@ -25,18 +25,17 @@ class ImagePost(models.Model):
         if self.image:
             self.image.delete()
             super().delete( *args, **kwargs)
-
+    #좋아요
     def like(self, user):
         self.likers.add(user)
-
+    #좋아요취소
     def unlike(self, user):
         self.likers.remove(user)
-        
+    #좋아요를 눌렀는지 확인하는 메서드
     def is_liked(self, user):
         return self.likers.filter(id=user.id).exists()
         # return self.subscribers.filter(name=user.name).exists()
-
-    # 구독자 수 반환
+    # 좋아요 수 반환
     def get_liker_count(self):
         return self.likers.count()
     

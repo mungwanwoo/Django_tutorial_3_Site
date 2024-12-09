@@ -60,19 +60,21 @@ def image_delete(request, image_id):
 @login_required  # 로그인한 사용자만 접근 가능
 @require_POST    # POST 요청만 허용
 def toggle_like(request, image_id):
-    post = ImagePost.objects.get(pk=image_id)
+    
+    image_post = ImagePost.objects.get(pk=image_id)
     user=request.user
-
-    if post.is_liked(user):
-        post.unlike(user)
+    #현재 이미지에 로그인한 유저가 좋아요를 누른 상태면 버튼을 누르면 좋아요 취소하기
+    if image_post.is_liked(user):
+        image_post.unlike(user)
         status= "unliked"
+    #좋아요를 누른 상태가 아니면 버튼을 누르면 좋아요하기
     else:
-        post.like(user)
+        image_post.like(user)
         status="liked"
     
     context={
         'status':status,
-        'liker_count':post.get_liker_count()
+        'liker_count':image_post.get_liker_count()
 
     }
     return JsonResponse(context)
