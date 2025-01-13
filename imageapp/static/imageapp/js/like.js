@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 필요한 DOM 요소들을 가져옵니다
     const likeButton = document.getElementById('likeButton');
     const likeCount = document.getElementById('likerCount');
-
+   
     if (likeButton) {
         likeButton.addEventListener('click', function() {
             // 버튼 데이터에서 게시물 ID를 가져옵니다

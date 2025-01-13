@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 # Create your views here.
 
 def index(request):
@@ -119,3 +120,23 @@ def search(request):
 
     }
     return render(request,'blog/search.html',context=context)
+
+
+def search_autocomplete(request):
+    query = request.GET.get('q', '')
+    if query and len(query)>=2:
+        posts=Post.objects.filter(
+            Q(title__icontains=query)|
+            Q(content__icontains=query)|
+            Q(author__username__icontains=query)|
+            Q(category__name__icontains=query)
+        ).values_list('title',flat=True).distinct()[:5]
+        return JsonResponse({
+            'status': 'success',
+            'suggestions': list(posts)
+        })
+    else:
+        return JsonResponse({
+        'status': 'error',
+        'suggestions': []
+    })
